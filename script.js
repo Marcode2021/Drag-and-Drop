@@ -94,7 +94,30 @@ function updateDOM() {
     createItemEl(onHoldList, 0, onHoldItem, i);
   });
   // Run getSavedColumns only once, Update Local Storage
+  updatedOnLoad = true;
+  updateSavedColumns();
 }
+
+// Allow arrays to reflect Drag and Drop items
+const rebuildArrays = function () {
+  backlogListArray = [];
+  for (let i = 0; i < backlogList.children.length; i++) {
+    backlogListArray.push(backlogList.children[i].textContent);
+  }
+  progressListArray = [];
+  for (let i = 0; i < progressList.children.length; i++) {
+    progressListArray.push(progressList.children[i].textContent);
+  }
+  completeListArray = [];
+  for (let i = 0; i < completeList.children.length; i++) {
+    completeListArray.push(completeList.children[i].textContent);
+  }
+  onHoldListArray = [];
+  for (let i = 0; i < onHoldList.children.length; i++) {
+    onHoldListArray.push(onHoldList.children[i].textContent);
+  }
+  updateDOM();
+};
 
 // When Item starts Dragging
 const drag = function (e) {
@@ -118,6 +141,7 @@ const drop = function (e) {
   // Add item to column
   const parent = itemLists[currentColumn];
   parent.appendChild(draggedItem);
+  rebuildArrays();
 };
 
 // When Item enters column Area
